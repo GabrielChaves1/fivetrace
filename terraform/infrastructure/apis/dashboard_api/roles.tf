@@ -21,7 +21,22 @@ resource "aws_iam_role_policy_attachment" "signup_policy_attachment" {
   policy_arn = aws_iam_policy.signup_policy.arn
 }
 
-resource "aws_iam_role_policy_attachment" "logs_policy_attachment" {
+resource "aws_iam_role_policy_attachment" "signup_logs_policy" {
   role       = aws_iam_role.signup_role.name
+  policy_arn = aws_iam_policy.logs_policy.arn
+}
+
+resource "aws_iam_role" "confirm_email_role" {
+  name_prefix = "ConfirmEmailRole"
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "confirm_email_attachment" {
+  role = aws_iam_role.confirm_email_role.name
+  policy_arn = aws_iam_policy.confirm_email_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "confirm_email_logs_policy" {
+  role       = aws_iam_role.confirm_email_role.name
   policy_arn = aws_iam_policy.logs_policy.arn
 }
