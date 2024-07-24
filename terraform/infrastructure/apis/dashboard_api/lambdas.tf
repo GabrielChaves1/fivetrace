@@ -6,8 +6,8 @@ resource "aws_lambda_function" "signup_lambda" {
   runtime = "provided.al2023"
   handler = "bootstrap"
 
-  filename         = "${local.iam_build_path}/dashboard_sign_up_lambda.zip"
-  source_code_hash = filebase64sha256("${local.iam_build_path}/dashboard_sign_up_lambda.zip")
+  filename         = "${local.iam_build_path}/sign_up_lambda.zip"
+  source_code_hash = filebase64sha256("${local.iam_build_path}/sign_up_lambda.zip")
 
   logging_config {
     log_format = "JSON"

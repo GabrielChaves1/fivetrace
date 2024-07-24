@@ -2,33 +2,28 @@ package main
 
 import (
 	"context"
-	"encoding/json"
+	"fmt"
 	"os"
 
 	"github.com/sirupsen/logrus"
-
-	"luminog.com/common/lib"
-	"luminog.com/iam_service/internal/adapters"
-	"luminog.com/iam_service/internal/application/dtos"
-	"luminog.com/iam_service/internal/application/usecases"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-lambda-go/lambdacontext"
 
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/cognitoidentityprovider"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-	"github.com/aws/aws-sdk-go-v2/service/sqs"
-	"github.com/aws/aws-sdk-go-v2/service/ssm"
+
+	"logs/common/lib"
+	"logs/iam_service/internal/adapters"
+	"logs/iam_service/internal/application/dtos"
+	"logs/iam_service/internal/application/usecases"
 )
 
 var (
 	cognitoClient *cognitoidentityprovider.Client
 	dynamoClient  *dynamodb.Client
-	sqsClient     *sqs.Client
-	frontendURL   string
 )
 
 func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
@@ -41,13 +36,8 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 	logger := lib.NewLogger(lib.JSONFormatter).WithField("type", "lambda.handler").WithField("record", contextFields)
 	ctx = lib.WithLogger(ctx, logger)
 
-	var request dtos.SignupDTO
-	err := json.Unmarshal([]byte(event.Body), &request)
-	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: 400,
-			Body:       "Invalid request body",
-		}, nil
+	request := &dtos.ConfirmDTO{
+		Token: event.QueryStringParameters["token"],
 	}
 
 	cognitoIDP := adapters.NewCognitoIdentityProvider(cognitoClient, &adapters.CognitoIdentityProviderConfig{
@@ -57,10 +47,9 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 	})
 
 	authTokenTable := adapters.NewDynamoTokenTable(dynamoClient, "auth_tokens")
-	sqsQueue := adapters.NewSQSMessageQueue(sqsClient, os.Getenv("SQS_QUEUE_URL"), "email")
-	signupUseCase := usecases.NewSignupUseCase(ctx, cognitoIDP, authTokenTable, sqsQueue, frontendURL)
+	confirmUseCase := usecases.NewConfirmUseCase(ctx, cognitoIDP, authTokenTable)
 
-	fail := signupUseCase.Execute(request.Email, request.Password)
+	fail := confirmUseCase.Execute(request.Token)
 
 	if fail != nil {
 		return events.APIGatewayProxyResponse{
@@ -90,24 +79,6 @@ func init() {
 
 	logger.Info("Initializing AWS DynamoDB Client")
 	dynamoClient = dynamodb.NewFromConfig(cfg)
-
-	logger.Info("Initializing AWS SQS Client")
-	sqsClient = sqs.NewFromConfig(cfg)
-
-	logger.Info("Initializing AWS SSM")
-	smmClient := ssm.NewFromConfig(cfg)
-
-	res, err := smmClient.GetParameter(context.Background(), &ssm.GetParameterInput{
-		Name: aws.String("front_url"),
-	})
-
-	if err != nil {
-		panic("unable to get parameter, " + err.Error())
-	}
-
-	logger.Info("Setting environment variables", *res.Parameter.Value)
-
-	frontendURL = *res.Parameter.Value
 }
 
 func main() {
