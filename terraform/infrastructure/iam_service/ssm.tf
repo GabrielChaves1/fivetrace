@@ -1,0 +1,10 @@
+resource "aws_ssm_parameter" "stripe_secret_key" {
+  name        = "stripe_secret_key"
+  description = "Secret key da Stripe"
+  type        = "SecureString"
+  value       = var.stripe_secret_key
+
+  tags = {
+    environment = "dev"
+  }
+}

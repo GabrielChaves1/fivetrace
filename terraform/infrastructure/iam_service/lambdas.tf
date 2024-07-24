@@ -5,11 +5,17 @@ resource "aws_lambda_function" "post_confirmation_lambda" {
   runtime = "provided.al2023"
   handler = "bootstrap"
 
-  filename         = "${local.iam_build_path}/sign_up_confirmation_lambda.zip"
-  source_code_hash = filebase64sha256("${local.iam_build_path}/sign_up_confirmation_lambda.zip")
+  filename         = "${local.iam_build_path}/post_confirmation_lambda.zip"
+  source_code_hash = filebase64sha256("${local.iam_build_path}/post_confirmation_lambda.zip")
 
   logging_config {
     log_format = "JSON"
+  }
+
+  environment {
+    variables = {
+      STRIPE_SECRET_KEY = var.stripe_secret_key
+    }
   }
 }
 

@@ -1,6 +1,7 @@
 module "iam_service" {
   source = "./iam_service"
   aws_region = var.aws_region
+  stripe_secret_key = var.stripe_secret_key
 }
 
 module "email_service" {
