@@ -49,7 +49,7 @@ resource "aws_api_gateway_integration_response" "signup_integration_response" {
   status_code = aws_api_gateway_method_response.signup_method_response.status_code
 
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin"  = "'${aws_ssm_parameter.frontend_url.value}'"
+    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
     "method.response.header.Access-Control-Allow-Methods" = "'POST'"
     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type'"
   }
