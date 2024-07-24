@@ -23,7 +23,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/sqs"
 	"github.com/aws/aws-sdk-go-v2/service/ssm"
 
-	"logs/common/lib"
+	"luminog.com/common/lib"
 )
 
 var (

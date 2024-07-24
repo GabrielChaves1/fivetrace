@@ -3,6 +3,11 @@ module "iam_service" {
   aws_region = var.aws_region
 }
 
+module "email_service" {
+  source = "./email_service"
+  aws_region = var.aws_region
+}
+
 module "apis" {
   source = "./apis"
   cognito_user_pool = module.iam_service.cognito_user_pool
