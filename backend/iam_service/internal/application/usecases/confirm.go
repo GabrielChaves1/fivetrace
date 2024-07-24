@@ -11,9 +11,9 @@ import (
 )
 
 type ConfirmUseCase struct {
-	ctx context.Context
-	idp ports.IdentityProvider
-	db  ports.AuthTokenTable
+	logger *logrus.Entry
+	idp    ports.IdentityProvider
+	db     ports.AuthTokenTable
 }
 
 func NewConfirmUseCase(
@@ -21,10 +21,14 @@ func NewConfirmUseCase(
 	idp ports.IdentityProvider,
 	db ports.AuthTokenTable,
 ) *ConfirmUseCase {
+	logger := lib.LoggerFromContext(ctx).WithFields(logrus.Fields{
+		"type": "usecase",
+	})
+
 	return &ConfirmUseCase{
-		ctx: ctx,
-		idp: idp,
-		db:  db,
+		logger: logger,
+		idp:    idp,
+		db:     db,
 	}
 }
 
@@ -34,11 +38,9 @@ type ConfirmUseCaseError struct {
 }
 
 func (u *ConfirmUseCase) Execute(token string) *ConfirmUseCaseError {
-	logger := lib.LoggerFromContext(u.ctx).WithFields(logrus.Fields{
-		"type": "usecase",
-	})
-
 	claims, err := managers.ParseJWT(token)
+
+	u.logger.Info("Unmarshalling token")
 
 	if err != nil {
 		return &ConfirmUseCaseError{
@@ -47,7 +49,9 @@ func (u *ConfirmUseCase) Execute(token string) *ConfirmUseCaseError {
 		}
 	}
 
-	storedToken, err := u.db.GetToken(u.ctx, claims.Subject)
+	u.logger.Info("Getting token from dynamodb")
+
+	storedToken, err := u.db.GetToken(context.Background(), claims.Subject)
 
 	if err != nil {
 		return &ConfirmUseCaseError{
@@ -63,9 +67,9 @@ func (u *ConfirmUseCase) Execute(token string) *ConfirmUseCaseError {
 		}
 	}
 
-	logger.Info("jwt validated")
+	u.logger.Info("Confirming user")
 
-	err = u.idp.ConfirmSignUp(u.ctx, claims.Subject)
+	err = u.idp.ConfirmSignUp(context.Background(), claims.Subject)
 
 	if err != nil {
 		return &ConfirmUseCaseError{
@@ -74,7 +78,9 @@ func (u *ConfirmUseCase) Execute(token string) *ConfirmUseCaseError {
 		}
 	}
 
-	err = u.db.DeleteToken(u.ctx, claims.Subject)
+	u.logger.Info("Deleting token from dynamodb")
+
+	err = u.db.DeleteToken(context.Background(), claims.Subject)
 
 	if err != nil {
 		return &ConfirmUseCaseError{
