@@ -7,10 +7,10 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
-	
-	"luminog.com/iam_serviceluminog.com/iam_service/internal/adapters"
-	"luminog.com/iam_serviceluminog.com/iam_service/internal/application/dtos"
-	"luminog.com/iam_serviceluminog.com/iam_service/internal/application/usecases"
+
+	"luminog.com/iam_service/internal/adapters"
+	"luminog.com/iam_service/internal/application/dtos"
+	"luminog.com/iam_service/internal/application/usecases"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"

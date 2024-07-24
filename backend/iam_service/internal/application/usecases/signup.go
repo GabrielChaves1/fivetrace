@@ -7,9 +7,9 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/sirupsen/logrus"
-	
-	"luminog.com/iam_serviceluminog.com/iam_service/internal/ports"
-	"luminog.com/iam_serviceluminog.com/iam_service/internal/utils"
+
+	"luminog.com/iam_service/internal/ports"
+	"luminog.com/iam_service/internal/utils"
 )
 
 var logBaseFields = logrus.Fields{

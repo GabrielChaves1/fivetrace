@@ -1,4 +1,4 @@
-module luminog.com/iam_serviceluminog.com/iam_service
+module luminog.com/iam_service
 
 go 1.22.1
 

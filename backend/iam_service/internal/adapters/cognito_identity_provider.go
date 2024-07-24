@@ -7,10 +7,10 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/cognitoidentityprovider"
 	"github.com/aws/aws-sdk-go-v2/service/cognitoidentityprovider/types"
-	
-	"luminog.com/iam_serviceluminog.com/iam_service/internal/domain"
-	"luminog.com/iam_serviceluminog.com/iam_service/internal/ports"
-	"luminog.com/iam_serviceluminog.com/iam_service/internal/utils"
+
+	"luminog.com/iam_service/internal/domain"
+	"luminog.com/iam_service/internal/ports"
+	"luminog.com/iam_service/internal/utils"
 )
 
 type CognitoIdentityProvider struct {
