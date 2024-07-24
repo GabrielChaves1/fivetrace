@@ -8,3 +8,8 @@ provider "aws" {
     }
   }
 }
+
+module "infrastructure" {
+  source = "../../infrastructure"
+  aws_region = var.aws_region
+}
