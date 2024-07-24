@@ -8,7 +8,6 @@ import (
 
 	"luminog.com/common/lib"
 	"luminog.com/iam_service/internal/adapters"
-	"luminog.com/iam_service/internal/application/dtos"
 	"luminog.com/iam_service/internal/application/usecases"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -35,9 +34,7 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 	logger := lib.NewLogger(lib.JSONFormatter).WithField("type", "lambda.handler").WithField("record", contextFields)
 	ctx = lib.WithLogger(ctx, logger)
 
-	request := &dtos.ConfirmDTO{
-		Token: event.QueryStringParameters["token"],
-	}
+	Token := event.QueryStringParameters["token"]
 
 	cognitoIDP := adapters.NewCognitoIdentityProvider(cognitoClient, &adapters.CognitoIdentityProviderConfig{
 		ClientId:     os.Getenv("COGNITO_CLIENT_ID"),
@@ -48,7 +45,7 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 	authTokenTable := adapters.NewDynamoTokenTable(dynamoClient, "auth_tokens")
 	confirmUseCase := usecases.NewConfirmUseCase(ctx, cognitoIDP, authTokenTable)
 
-	fail := confirmUseCase.Execute(request.Token)
+	fail := confirmUseCase.Execute(Token)
 
 	if fail != nil {
 		return events.APIGatewayProxyResponse{

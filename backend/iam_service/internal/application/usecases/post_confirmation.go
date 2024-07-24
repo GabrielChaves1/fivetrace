@@ -9,27 +9,30 @@ import (
 )
 
 type PostConfirmationUseCase struct {
-	ctx            context.Context
+	logger         *logrus.Entry
 	paymentGateway ports.PaymentGatewayManager
 }
 
 func NewPostConfirmationUseCase(ctx context.Context, paymentGateway ports.PaymentGatewayManager) *PostConfirmationUseCase {
+	logger := lib.LoggerFromContext(ctx).WithFields(logrus.Fields{
+		"type": "usecase",
+	})
+
 	return &PostConfirmationUseCase{
-		ctx:            ctx,
+		logger:         logger,
 		paymentGateway: paymentGateway,
 	}
 }
 
 func (u *PostConfirmationUseCase) Execute(email string) error {
-	logger := lib.LoggerFromContext(u.ctx).WithFields(logrus.Fields{
-		"type": "usecase",
-	})
+	logger := u.logger.WithField("email", email)
 
-	logger.Info("creating customer in stripe")
+	logger.Info("Creating customer in payment gateway")
 
 	_, err := u.paymentGateway.CreateCustomer(email)
 
 	if err != nil {
+		logger.WithError(err).Error("Failed to create customer in payment gateway")
 		return err
 	}
 

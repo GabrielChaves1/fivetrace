@@ -41,7 +41,7 @@ func getStripeSecretKey(logger *logrus.Entry) (stripeSecretKey string, err error
 	return *param.Parameter.Value, err
 }
 
-func handler(ctx context.Context, event events.CognitoEventUserPoolsPostConfirmationRequest) (events.CognitoEventUserPoolsPostConfirmationRequest, error) {
+func handler(ctx context.Context, event events.CognitoEventUserPoolsPostConfirmation) (events.CognitoEventUserPoolsPostConfirmation, error) {
 	lambdaContext, _ := lambdacontext.FromContext(ctx)
 	contextFields := logrus.Fields{
 		"requestID":         lambdaContext.AwsRequestID,
@@ -51,12 +51,17 @@ func handler(ctx context.Context, event events.CognitoEventUserPoolsPostConfirma
 	logger := lib.NewLogger(lib.JSONFormatter).WithField("type", "lambda.handler").WithField("record", contextFields)
 	ctx = lib.WithLogger(ctx, logger)
 
-	email := event.UserAttributes["email"]
+	email := event.Request.UserAttributes["email"]
 
 	stripePaymentGatewayManager := adapters.NewStripePaymentGatewayManager()
 
 	postConfirmationUseCase := usecases.NewPostConfirmationUseCase(ctx, stripePaymentGatewayManager)
-	postConfirmationUseCase.Execute(email)
+	err := postConfirmationUseCase.Execute(email)
+
+	if err != nil {
+		logger.WithError(err).Error("Failed to execute post confirmation use case")
+		return event, err
+	}
 
 	return event, nil
 }
