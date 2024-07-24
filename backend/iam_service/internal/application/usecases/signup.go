@@ -3,7 +3,8 @@ package usecases
 import (
 	"context"
 	"encoding/json"
-	"logs/common/lib"
+
+	"luminog.com/common/lib"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/sirupsen/logrus"
