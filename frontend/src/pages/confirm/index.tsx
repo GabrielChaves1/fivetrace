@@ -1,4 +1,5 @@
 import Grid from "@/components/grid";
+import { Button } from "@/components/ui/button";
 
 export default function Confirm() {
   return (
@@ -11,7 +12,13 @@ export default function Confirm() {
         </div>
       </section>
       <section className="container mx-auto w-full max-w-xl py-12 flex flex-col items-center justify-center gap-12 bg-container border-x border-foreground/10">
-        
+        <div className="w-full max-w-sm text-center space-y-8">
+          <div className="space-y-2">
+            <h1 className="text-3xl">Parabéns!</h1>
+            <p className="text-foreground/70">Seu cadastro foi concluído com <span className="text-primary font-semibold">sucesso</span>, para acessar a plataforma basta clicar no botão abaixo.</p>
+          </div>
+          <Button className="w-full h-12">Entrar na plataforma</Button>
+        </div>
       </section>
     </main>
   )
