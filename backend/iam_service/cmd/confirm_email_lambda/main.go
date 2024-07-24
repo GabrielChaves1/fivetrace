@@ -2,10 +2,14 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"os"
 
 	"github.com/sirupsen/logrus"
+
+	"luminog.com/common/lib"
+	"luminog.com/iam_service/internal/adapters"
+	"luminog.com/iam_service/internal/application/dtos"
+	"luminog.com/iam_service/internal/application/usecases"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -14,11 +18,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/cognitoidentityprovider"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-
-	"logs/common/lib"
-	"logs/iam_service/internal/adapters"
-	"logs/iam_service/internal/application/dtos"
-	"logs/iam_service/internal/application/usecases"
 )
 
 var (
@@ -60,7 +59,7 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
-		Body:       "User signed up",
+		Body:       "User confirmed successfully",
 	}, nil
 }
 
