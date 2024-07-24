@@ -14,8 +14,8 @@ func NewStripePaymentGatewayManager() ports.PaymentGatewayManager {
 
 func (a *StripePaymentGatewayManager) CreateCustomer(email string) (string, error) {
 	params := &stripe.CustomerParams{
-		Name:  &email,
-		Email: &email,
+		Name:  stripe.String(email),
+		Email: stripe.String(email),
 	}
 
 	_, err := customer.New(params)

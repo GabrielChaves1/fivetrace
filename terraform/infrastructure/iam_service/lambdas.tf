@@ -14,7 +14,7 @@ resource "aws_lambda_function" "post_confirmation_lambda" {
 
   environment {
     variables = {
-      STRIPE_SECRET_KEY = var.stripe_secret_key
+      STRIPE_SECRET_KEY = aws_ssm_parameter.stripe_secret_key.name
     }
   }
 }

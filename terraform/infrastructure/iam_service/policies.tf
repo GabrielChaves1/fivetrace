@@ -5,10 +5,12 @@ data "aws_iam_policy_document" "logs_policy" {
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents",
+      "ssm:GetParameter"
     ]
 
     resources = [
       "arn:aws:logs:*:*:*",
+      aws_ssm_parameter.stripe_secret_key.arn
     ]
 
     effect = "Allow"
