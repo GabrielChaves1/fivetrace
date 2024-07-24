@@ -44,16 +44,16 @@ export default function Signup() {
         <Grid className="absolute z-0 w-3/4 object-cover bg-auto h-full"/>
         <div className="flex flex-col space-y-4 z-10 w-fit max-w-xl">
           <h1 className="text-7xl">Plataforma <br />de <b className="text-primary tracking-tighter">FiveM</b></h1>
-          <p className="text-md opacity-50">Não perca um único evento. A <b>Luminog</b> te ajuda nisso.</p>
+          <p className="text-md opacity-60">Não perca um único evento. A <b>Luminog</b> te ajuda nisso.</p>
         </div>
       </section>
       {emailSent ? (
         <div className="container mx-auto w-full max-w-xl py-12 flex flex-col items-center justify-center gap-8 bg-container border-x border-foreground/10">
           {/* <img src="/logo.svg" /> */}
           <div className="space-y-10 w-fit max-w-xs text-center">
-            <p className="text-md text-foreground/75">Estamos felizes em informar que sua conta foi cadastrada com <span className="text-primary font-semibold">sucesso</span> em nossa plataforma!</p>
+            <p className="text-md text-foreground/55">Estamos felizes em informar que sua conta foi cadastrada com <span className="text-primary font-semibold">sucesso</span> em nossa plataforma!</p>
             <hr className="border-foreground/10" />
-            <p className="text-md text-foreground/75">Para completar o processo de cadastro e ativar sua conta, por favor verifique sua caixa de entrada de email. Enviamos um <span className="text-primary font-semibold">link de confirmação</span> para o endereço de email fornecido durante o cadastro.</p>
+            <p className="text-md text-foreground/55">Para completar o processo de cadastro e ativar sua conta, por favor verifique sua caixa de entrada de email. Enviamos um <span className="text-primary font-semibold">link de confirmação</span> para o endereço de email fornecido durante o cadastro.</p>
           </div>
         </div>
       ) : (
@@ -122,7 +122,7 @@ export default function Signup() {
                 <FormField
                   control={form.control}
                   name="country"
-                  render={({ field }) => (
+                  render={() => (
                     <FormItem>
                       <FormLabel>País</FormLabel>
                       <FormControl>
