@@ -8,7 +8,7 @@ import (
 )
 
 var EmailTypeStrings = []string{
-	"confirmLink",
+	"confirm_link",
 }
 
 type EmailMessageDTO struct {
@@ -19,7 +19,7 @@ type EmailMessageDTO struct {
 
 func getEmailTypeFromString(emailTypeString string) (emailType domain.EmailType, err error) {
 	switch emailTypeString {
-	case "confirmLink":
+	case "confirm_link":
 		return domain.ConfirmLink, nil
 	default:
 		return 0, fmt.Errorf("invalid email type")

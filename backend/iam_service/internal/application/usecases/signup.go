@@ -90,7 +90,7 @@ func (u *SignupUseCase) Execute(email, password string) *SignupUseCaseError {
 	}
 
 	emailMessage := EmailMessage{
-		EmailType: "signup-confirm",
+		EmailType: "confirm_link",
 		To:        email,
 		Data: map[string]interface{}{
 			"link": u.frontendUrl + "/confirm?token=" + token,
