@@ -68,7 +68,7 @@ func (a *CognitoIdentityProvider) ConfirmSignUp(ctx context.Context, sub string)
 		Username:   aws.String(sub),
 	}
 
-	_, err := a.client.AdminConfirmSignUp(context.Background(), confirmInput)
+	_, err := a.client.AdminConfirmSignUp(ctx, confirmInput)
 
 	if err != nil {
 		return err
