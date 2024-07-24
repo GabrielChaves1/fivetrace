@@ -3,7 +3,8 @@ package usecases
 import (
 	"context"
 	"encoding/json"
-	"logs/common/lib"
+
+	"luminog.com/common/lib"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/sirupsen/logrus"
@@ -89,7 +90,7 @@ func (u *SignupUseCase) Execute(email, password string) *SignupUseCaseError {
 	}
 
 	emailMessage := EmailMessage{
-		EmailType: "signup-confirm",
+		EmailType: "confirm_link",
 		To:        email,
 		Data: map[string]interface{}{
 			"link": u.frontendUrl + "/confirm?token=" + token,

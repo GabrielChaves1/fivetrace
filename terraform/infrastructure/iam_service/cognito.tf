@@ -22,10 +22,6 @@ resource "aws_cognito_user_pool" "cognito_user_pool" {
       schema
     ]
   }
-
-  lambda_config {
-    post_confirmation = aws_lambda_function.signup_confirmation_lambda.arn
-  }
 }
 
 resource "aws_cognito_user_pool_domain" "pool_domain" {
