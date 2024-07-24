@@ -15,6 +15,11 @@ data "aws_iam_policy_document" "logs_policy" {
   }
 }
 
+resource "aws_iam_policy" "logs_policy" {
+  name_prefix = "CloudwatchLogsPolicy"
+  policy      = data.aws_iam_policy_document.logs_policy.json
+}
+
 data "aws_iam_policy_document" "signup_policy" {
   version = "2012-10-17"
   statement {
@@ -43,7 +48,26 @@ resource "aws_iam_policy" "signup_policy" {
   policy      = data.aws_iam_policy_document.signup_policy.json
 }
 
-resource "aws_iam_policy" "logs_policy" {
-  name_prefix = "CloudwatchLogsPolicy"
-  policy      = data.aws_iam_policy_document.logs_policy.json
+data "aws_iam_policy_document" "confirm_email_policy" {
+  version = "2012-10-17"
+  statement {
+    actions = [
+      "cognito-idp:AdminConfirmSignUp",
+      "cognito-idp:AdminUpdateUserAttributes",
+      "dynamodb:GetItem",
+      "dynamodb:DeleteItem",
+    ]
+
+    resources = [
+      var.cognito_user_pool.arn,
+      var.dynamodb_auth_tokens_arn,
+    ]
+
+    effect = "Allow"
+  }
+}
+
+resource "aws_iam_policy" "confirm_email_policy" {
+  name_prefix = "ConfirmEmailPolicy"
+  policy      = data.aws_iam_policy_document.confirm_email_policy.json
 }

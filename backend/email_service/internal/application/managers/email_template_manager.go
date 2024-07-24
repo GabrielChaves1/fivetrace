@@ -17,7 +17,7 @@ var logBaseFields = logrus.Fields{
 }
 
 type EmailTemplateManager struct {
-	ctx               context.Context
+	ctx                 context.Context
 	confirmLinkTemplate *template.Template
 }
 
@@ -42,7 +42,7 @@ func (a *EmailTemplateManager) formatConfirmLinkEmail(data map[string]interface{
 		"data": data,
 	})
 
-	subject = "Seu acesso à experiência"
+	subject = "Confirmação de E-mail"
 
 	logger.Info("validating ConfirmLink data fields")
 	if _, ok := data["link"]; !ok {
@@ -82,78 +82,39 @@ func (a *EmailTemplateManager) FormatEmail(emailTemplateData domain.EmailTemplat
 
 func loadConfirmLinkTemplate() (templateInstance *template.Template, err error) {
 	templateContent := `
-    <html lang="en">
-			<head>
-					<meta charset="UTF-8">
-					<meta name="viewport" content="width=device-width, initial-scale=1.0">
-					<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-					<title>Email de Confirmação</title>
-					<style>
-							body {
-									font-family: 'Roboto', sans-serif;
-									background-color: #181818;
-									margin: 0;
-									padding: 0;
-							}
-							.container {
-									max-width: 600px;
-									margin: 0 auto;
-									background-color: #161616;
-									padding: 20px;
-									border-radius: 4px;
-									border: solid .1rem rgba(255,255,255,.1);
-									border-top: none;
-							}
-							.content {
-									text-align: center;
-									padding: 20px 0;
-									margin: 0 auto;
-									max-width: 500px;
-							}
-							.content h1 {
-									color: #E2E8F0;
-							}
-							.content p {
-								color: rgba(226, 232, 240, .70);
-							}
-							.button-container {
-									text-align: center;
-									margin: 20px 0;
-							}
-							.button-container a {
-									background-color: rgba(38, 197, 126, 0.45);
-									border: solid .1rem rgb(38, 197, 126, .5);
-									color: #ffffff;
-									padding: 15px 25px;
-									text-decoration: none;
-									border-radius: 5px;
-									font-size: 16px;
-							}
-							.footer {
-									text-align: center;
-									padding: 20px 0;
-									color: rgba(226, 232, 240, 0.3);
-									font-size: 12px;
-							}
-					</style>
-			</head>
-			<body>
-					<div class="container">
-							<div class="content">
-									<h1>Confirme seu endereço de e-mail</h1>
-									<p>Olá,</p>
-									<p>Obrigado por se registrar em nossa plataforma. Para completar seu cadastro, por favor clique no botão abaixo para confirmar seu endereço de e-mail.</p>
-							</div>
-							<div class="button-container">
-									<a href="link_de_confirmacao">Confirmar E-mail</a>
-							</div>
-							<div class="footer">
-									<p>Se você não solicitou este e-mail, por favor ignore-o.</p>
-									<p>&copy; 2024 Luminog. Todos os direitos reservados.</p>
-							</div>
-					</div>
-			</body>
-			</html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Roboto', sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
+            <tr>
+                <td bgcolor="#ffffff" style="padding: 0px 0px 20px 0px;">
+                    <div style="padding: 20px 0px 20px 0px;">
+                        <p style="font-size: 16px; margin: 0;">Olá,</p>
+                        <p style="font-size: 16px; margin: 0;">Estamos quase lá! Clique no link abaixo para confirmar seu cadastro:</p>
+                    </div>
+                    <p style="font-size: 16px; margin: 0;">
+                        <a href="{{.link}}"
+                            style="background-color: rgba(35,197,126,44%); border: solid 1px #26C57E; color: white; padding: 12px 20px; text-align: center; text-decoration: none; display: inline-block; border-radius: 4px;">Confirmar e-mail</a>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#f0f0f0" style="padding: 30px 30px 30px 30px;">
+                    <p style="font-size: 14px; margin: 0;">Se você não solicitou acesso, ignore este email.
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </body>
+    </html>
     `
 
 	templateInstance, err = template.New("ConfirmLinkEmail").Parse(templateContent)
