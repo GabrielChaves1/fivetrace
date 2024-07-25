@@ -13,7 +13,7 @@ type IdentityProviderApplication struct {
 
 type IdentityProvider interface {
 	ConfirmSignUp(ctx context.Context, email string) error
-	SignUpUser(ctx context.Context, email, password string) (string, error)
+	SignUpUser(email, password, organizationName, country string) (string, error)
 	SignInUser(ctx context.Context, email, password string) (string, error)
 	CreateApplication(ctx context.Context, name string) (*IdentityProviderApplication, error)
 

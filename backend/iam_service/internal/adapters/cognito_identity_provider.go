@@ -35,7 +35,7 @@ func NewCognitoIdentityProvider(client *cognitoidentityprovider.Client, config *
 	}
 }
 
-func (a *CognitoIdentityProvider) SignUpUser(ctx context.Context, email, password string) (string, error) {
+func (a *CognitoIdentityProvider) SignUpUser(email, password, organizationName, country string) (string, error) {
 	input := &cognitoidentityprovider.SignUpInput{
 		ClientId:   aws.String(a.clientId),
 		SecretHash: aws.String(utils.ComputeSecretHash(a.clientId, a.clientSecret, email)),
@@ -50,10 +50,18 @@ func (a *CognitoIdentityProvider) SignUpUser(ctx context.Context, email, passwor
 				Name:  aws.String("custom:role"),
 				Value: aws.String(domain.Manager.String()),
 			},
+			{
+				Name:  aws.String("custom:organization"),
+				Value: aws.String(organizationName),
+			},
+			{
+				Name:  aws.String("custom:country"),
+				Value: aws.String(country),
+			},
 		},
 	}
 
-	data, err := a.client.SignUp(context.TODO(), input)
+	data, err := a.client.SignUp(context.Background(), input)
 
 	if err != nil {
 		return "", err

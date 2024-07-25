@@ -1,5 +1,5 @@
 package ports
 
 type PaymentGatewayManager interface {
-	CreateCustomer(email string) (string, error)
+	CreateCustomer(organizationName, email string) (string, error)
 }

@@ -24,12 +24,12 @@ func NewPostConfirmationUseCase(ctx context.Context, paymentGateway ports.Paymen
 	}
 }
 
-func (u *PostConfirmationUseCase) Execute(email string) error {
+func (u *PostConfirmationUseCase) Execute(organizationName, email string) error {
 	logger := u.logger.WithField("email", email)
 
 	logger.Info("Creating customer in payment gateway")
 
-	_, err := u.paymentGateway.CreateCustomer(email)
+	_, err := u.paymentGateway.CreateCustomer(organizationName, email)
 
 	if err != nil {
 		logger.WithError(err).Error("Failed to create customer in payment gateway")
