@@ -60,7 +60,7 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 	sqsQueue := adapters.NewSQSMessageQueue(sqsClient, os.Getenv("SQS_QUEUE_URL"), "email")
 	signupUseCase := usecases.NewSignupUseCase(ctx, cognitoIDP, authTokenTable, sqsQueue, frontendURL)
 
-	fail := signupUseCase.Execute(request.Email, request.Password)
+	fail := signupUseCase.Execute(&request)
 
 	if fail != nil {
 		return events.APIGatewayProxyResponse{

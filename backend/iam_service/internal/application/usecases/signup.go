@@ -9,6 +9,8 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/sirupsen/logrus"
 
+	"luminog.com/iam_service/internal/application/dtos"
+	"luminog.com/iam_service/internal/application/validators"
 	"luminog.com/iam_service/internal/ports"
 	"luminog.com/iam_service/internal/utils"
 )
@@ -18,7 +20,7 @@ var logBaseFields = logrus.Fields{
 }
 
 type SignupUseCase struct {
-	ctx              context.Context
+	logger           *logrus.Entry
 	idp              ports.IdentityProvider
 	tokenTable       ports.AuthTokenTable
 	emailSenderQueue ports.MessageQueue
@@ -32,8 +34,10 @@ func NewSignupUseCase(
 	emailSenderQueue ports.MessageQueue,
 	frontendUrl string,
 ) *SignupUseCase {
+	logger := lib.LoggerFromContext(ctx).WithFields(logBaseFields)
+
 	return &SignupUseCase{
-		ctx:              ctx,
+		logger:           logger,
 		idp:              idp,
 		tokenTable:       tokenTable,
 		emailSenderQueue: emailSenderQueue,
@@ -46,12 +50,19 @@ type SignupUseCaseError struct {
 	StatusCode int
 }
 
-func (u *SignupUseCase) Execute(email, password string) *SignupUseCaseError {
-	logger := lib.LoggerFromContext(u.ctx).WithFields(logBaseFields)
+func (u *SignupUseCase) Execute(signupDto *dtos.SignupDTO) *SignupUseCaseError {
+	if err := validators.ValidateSignupDTO(signupDto); err != nil {
+		return &SignupUseCaseError{
+			Message:    "invalid signup data",
+			StatusCode: 400,
+		}
+	}
 
-	logger.Info("Starting signup process")
+	logger := u.logger.WithField("organization_name", signupDto.OrganizationName).WithField("country", signupDto.Country)
 
-	sub, err := u.idp.SignUpUser(u.ctx, email, password)
+	logger.Info("creating user in cognito")
+
+	sub, err := u.idp.SignUpUser(signupDto.Email, signupDto.Password, signupDto.OrganizationName, signupDto.Country)
 
 	if err != nil {
 		return &SignupUseCaseError{
@@ -60,8 +71,10 @@ func (u *SignupUseCase) Execute(email, password string) *SignupUseCaseError {
 		}
 	}
 
+	logger.Info("creating temp auth token")
+
 	token, err := utils.GenerateJWT(utils.Claims{
-		Email: email,
+		Email: signupDto.Email,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Subject: sub,
 		},
@@ -74,7 +87,9 @@ func (u *SignupUseCase) Execute(email, password string) *SignupUseCaseError {
 		}
 	}
 
-	err = u.tokenTable.PutToken(u.ctx, sub, token)
+	logger.Info("saving temp auth token in dynamodb")
+
+	err = u.tokenTable.PutToken(context.Background(), sub, token)
 
 	if err != nil {
 		return &SignupUseCaseError{
@@ -91,7 +106,7 @@ func (u *SignupUseCase) Execute(email, password string) *SignupUseCaseError {
 
 	emailMessage := EmailMessage{
 		EmailType: "confirm_link",
-		To:        email,
+		To:        signupDto.Email,
 		Data: map[string]interface{}{
 			"link": u.frontendUrl + "/confirm?token=" + token,
 		},
@@ -106,7 +121,9 @@ func (u *SignupUseCase) Execute(email, password string) *SignupUseCaseError {
 		}
 	}
 
-	err = u.emailSenderQueue.SendMessage(u.ctx, userJSON)
+	logger.Info("sending confirmation link to email")
+
+	err = u.emailSenderQueue.SendMessage(context.Background(), userJSON)
 
 	if err != nil {
 		return &SignupUseCaseError{
@@ -114,8 +131,6 @@ func (u *SignupUseCase) Execute(email, password string) *SignupUseCaseError {
 			StatusCode: 400,
 		}
 	}
-
-	logger.Info("Sending confirmation link to email")
 
 	return nil
 }
