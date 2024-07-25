@@ -46,7 +46,7 @@ type SignupUseCaseError struct {
 	StatusCode int
 }
 
-func (u *SignupUseCase) Execute(email, password string) *SignupUseCaseError {
+func (u *SignupUseCase) Execute(email, password, organizationName, country string) *SignupUseCaseError {
 	logger := lib.LoggerFromContext(u.ctx).WithFields(logBaseFields)
 
 	logger.Info("Starting signup process")
