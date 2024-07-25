@@ -5,6 +5,9 @@ import (
 	"errors"
 	"os"
 
+	"fivetrace.com/common/lib"
+	"fivetrace.com/iam_service/internal/adapters"
+	"fivetrace.com/iam_service/internal/application/usecases"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-lambda-go/lambdacontext"
@@ -12,9 +15,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ssm"
 	"github.com/sirupsen/logrus"
-	"luminog.com/common/lib"
-	"luminog.com/iam_service/internal/adapters"
-	"luminog.com/iam_service/internal/application/usecases"
 
 	"github.com/stripe/stripe-go/v79"
 )
@@ -53,11 +53,12 @@ func handler(ctx context.Context, event events.CognitoEventUserPoolsPostConfirma
 
 	email := event.Request.UserAttributes["email"]
 	organizationName := event.Request.UserAttributes["custom:organization"]
+	sub := event.Request.UserAttributes["sub"]
 
 	stripePaymentGatewayManager := adapters.NewStripePaymentGatewayManager()
 
 	postConfirmationUseCase := usecases.NewPostConfirmationUseCase(ctx, stripePaymentGatewayManager)
-	err := postConfirmationUseCase.Execute(organizationName, email)
+	err := postConfirmationUseCase.Execute(organizationName, email, sub)
 
 	if err != nil {
 		logger.WithError(err).Error("Failed to execute post confirmation use case")

@@ -3,9 +3,9 @@ package usecases
 import (
 	"context"
 
+	"fivetrace.com/common/lib"
+	"fivetrace.com/iam_service/internal/ports"
 	"github.com/sirupsen/logrus"
-	"luminog.com/common/lib"
-	"luminog.com/iam_service/internal/ports"
 )
 
 type PostConfirmationUseCase struct {
@@ -24,12 +24,12 @@ func NewPostConfirmationUseCase(ctx context.Context, paymentGateway ports.Paymen
 	}
 }
 
-func (u *PostConfirmationUseCase) Execute(organizationName, email string) error {
+func (u *PostConfirmationUseCase) Execute(organizationName, email, sub string) error {
 	logger := u.logger.WithField("email", email)
 
 	logger.Info("Creating customer in payment gateway")
 
-	_, err := u.paymentGateway.CreateCustomer(organizationName, email)
+	_, err := u.paymentGateway.CreateCustomer(sub, email, organizationName)
 
 	if err != nil {
 		logger.WithError(err).Error("Failed to create customer in payment gateway")

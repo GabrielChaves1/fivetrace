@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
+	"fivetrace.com/common/lib"
+	"fivetrace.com/iam_service/internal/application/managers"
+	"fivetrace.com/iam_service/internal/ports"
 	"github.com/sirupsen/logrus"
-	"luminog.com/common/lib"
-	"luminog.com/iam_service/internal/application/managers"
-	"luminog.com/iam_service/internal/ports"
 )
 
 type ConfirmUseCase struct {

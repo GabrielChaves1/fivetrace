@@ -7,10 +7,10 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"luminog.com/common/lib"
-	"luminog.com/iam_service/internal/adapters"
-	"luminog.com/iam_service/internal/application/dtos"
-	"luminog.com/iam_service/internal/application/usecases"
+	"fivetrace.com/common/lib"
+	"fivetrace.com/iam_service/internal/adapters"
+	"fivetrace.com/iam_service/internal/application/dtos"
+	"fivetrace.com/iam_service/internal/application/usecases"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
