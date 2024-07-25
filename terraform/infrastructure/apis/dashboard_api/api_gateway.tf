@@ -25,41 +25,6 @@ resource "aws_api_gateway_integration" "signup_integration" {
   uri                     = aws_lambda_function.signup_lambda.invoke_arn
 }
 
-resource "aws_api_gateway_method_response" "signup_method_response" {
-  rest_api_id = aws_api_gateway_rest_api.dashboard_api.id
-  resource_id = aws_api_gateway_resource.signup_resource.id
-  http_method = aws_api_gateway_method.signup_method.http_method
-  status_code = "200"
-
-  response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin"  = true
-    "method.response.header.Access-Control-Allow-Methods" = true
-    "method.response.header.Access-Control-Allow-Headers" = true
-  }
-
-  response_models = {
-    "application/json" = "Empty"
-  }
-}
-
-resource "aws_api_gateway_integration_response" "signup_integration_response" {
-  depends_on = [ 
-    aws_api_gateway_resource.signup_resource,
-    aws_api_gateway_method.signup_method,
-    aws_api_gateway_method_response.signup_method_response
-  ]
-  rest_api_id = aws_api_gateway_rest_api.dashboard_api.id
-  resource_id = aws_api_gateway_resource.signup_resource.id
-  http_method = aws_api_gateway_method.signup_method.http_method
-  status_code = aws_api_gateway_method_response.signup_method_response.status_code
-
-  response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
-    "method.response.header.Access-Control-Allow-Methods" = "'POST'"
-    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type'"
-  }
-}
-
 resource "aws_api_gateway_deployment" "signup_deployment" {
   depends_on = [
     aws_api_gateway_integration.signup_integration,
