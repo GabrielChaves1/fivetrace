@@ -29,7 +29,7 @@ func getStripeSecretKey(logger *logrus.Entry) (stripeSecretKey string, err error
 		panic("STRIPE_SECRET_KEY env var is not set!")
 	}
 
-	logger.Info("Searching email sender identity parameter in SSM")
+	logger.Info("Searching stripe secret key in SSM")
 	param, err := ssmClient.GetParameter(context.TODO(), &ssm.GetParameterInput{
 		Name:           aws.String(secretKey),
 		WithDecryption: aws.Bool(true),
@@ -52,11 +52,12 @@ func handler(ctx context.Context, event events.CognitoEventUserPoolsPostConfirma
 	ctx = lib.WithLogger(ctx, logger)
 
 	email := event.Request.UserAttributes["email"]
+	organizationName := event.Request.UserAttributes["custom:organization"]
 
 	stripePaymentGatewayManager := adapters.NewStripePaymentGatewayManager()
 
 	postConfirmationUseCase := usecases.NewPostConfirmationUseCase(ctx, stripePaymentGatewayManager)
-	err := postConfirmationUseCase.Execute(email)
+	err := postConfirmationUseCase.Execute(organizationName, email)
 
 	if err != nil {
 		logger.WithError(err).Error("Failed to execute post confirmation use case")

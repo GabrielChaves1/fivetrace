@@ -50,7 +50,7 @@ type SignupUseCaseError struct {
 	StatusCode int
 }
 
-func (u *SignupUseCase) Execute(signupDto dtos.SignupDTO) *SignupUseCaseError {
+func (u *SignupUseCase) Execute(signupDto *dtos.SignupDTO) *SignupUseCaseError {
 	if err := validators.ValidateSignupDTO(signupDto); err != nil {
 		return &SignupUseCaseError{
 			Message:    "invalid signup data",
@@ -58,7 +58,7 @@ func (u *SignupUseCase) Execute(signupDto dtos.SignupDTO) *SignupUseCaseError {
 		}
 	}
 
-	logger := u.logger.WithField("organizationName", signupDto.OrganizationName).WithField("country", signupDto.Country)
+	logger := u.logger.WithField("organization_name", signupDto.OrganizationName).WithField("country", signupDto.Country)
 
 	logger.Info("creating user in cognito")
 

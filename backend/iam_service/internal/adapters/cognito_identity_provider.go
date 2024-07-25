@@ -51,7 +51,7 @@ func (a *CognitoIdentityProvider) SignUpUser(email, password, organizationName, 
 				Value: aws.String(domain.Manager.String()),
 			},
 			{
-				Name:  aws.String("name"),
+				Name:  aws.String("custom:organization"),
 				Value: aws.String(organizationName),
 			},
 			{
