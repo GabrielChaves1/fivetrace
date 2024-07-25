@@ -43,6 +43,11 @@ resource "aws_api_gateway_method_response" "signup_method_response" {
 }
 
 resource "aws_api_gateway_integration_response" "signup_integration_response" {
+  depends_on = [ 
+    aws_api_gateway_resource.signup_resource,
+    aws_api_gateway_method.signup_method,
+    aws_api_gateway_method_response.signup_method_response
+  ]
   rest_api_id = aws_api_gateway_rest_api.dashboard_api.id
   resource_id = aws_api_gateway_resource.signup_resource.id
   http_method = aws_api_gateway_method.signup_method.http_method
