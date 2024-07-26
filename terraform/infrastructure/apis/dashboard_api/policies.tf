@@ -74,3 +74,23 @@ resource "aws_iam_policy" "confirm_email_policy" {
   name_prefix = "ConfirmEmailPolicy"
   policy      = data.aws_iam_policy_document.confirm_email_policy.json
 }
+
+data "aws_iam_policy_document" "signin_policy" {
+  version = "2012-10-17"
+  statement {
+    actions = [
+      "cognito-idp:InitiateAuth",
+    ]
+
+    resources = [
+      var.cognito_user_pool.arn,
+    ]
+
+    effect = "Allow"
+  }
+}
+
+resource "aws_iam_policy" "signin_policy" {
+  name_prefix = "SignInUserPolicy"
+  policy      = data.aws_iam_policy_document.signin_policy.json
+}
