@@ -25,6 +25,7 @@ data "aws_iam_policy_document" "signup_policy" {
   statement {
     actions = [
       "cognito-idp:AdminCreateUser",
+      "cognito-idp:AdminUpdateUserAttributes",
       "dynamodb:GetItem",
       "dynamodb:PutItem",
       "dynamodb:DeleteItem",
@@ -56,9 +57,11 @@ data "aws_iam_policy_document" "confirm_email_policy" {
       "cognito-idp:AdminUpdateUserAttributes",
       "dynamodb:GetItem",
       "dynamodb:DeleteItem",
+      "ssm:GetParameter"
     ]
 
     resources = [
+      aws_ssm_parameter.stripe_secret_key.arn,
       var.cognito_user_pool.arn,
       var.dynamodb_auth_tokens_arn,
     ]

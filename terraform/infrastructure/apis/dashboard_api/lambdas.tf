@@ -51,6 +51,7 @@ resource "aws_lambda_function" "confirm_email_lambda" {
       COGNITO_CLIENT_ID = var.cognito_user_pool_app_client.client_id
       COGNITO_CLIENT_SECRET = var.cognito_user_pool_app_client.client_secret
       COGNITO_USER_POOL_ID = var.cognito_user_pool.id
+      STRIPE_SECRET_KEY = aws_ssm_parameter.stripe_secret_key.name
     }
   }
 }

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"luminog.com/email_service/internal/domain"
+	"fivetrace.com/email_service/internal/domain"
 )
 
 var EmailTypeStrings = []string{

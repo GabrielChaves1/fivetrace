@@ -24,6 +24,13 @@ resource "aws_cognito_user_pool" "cognito_user_pool" {
     required            = false
   }
 
+    schema {
+    name                = "customer_id"
+    attribute_data_type = "String"
+    mutable             = true
+    required            = false
+  }
+
   schema {
     name                = "country"
     attribute_data_type = "String"
@@ -35,10 +42,6 @@ resource "aws_cognito_user_pool" "cognito_user_pool" {
     ignore_changes = [
       schema
     ]
-  }
-
-  lambda_config {
-    post_confirmation = aws_lambda_function.post_confirmation_lambda.arn
   }
 }
 

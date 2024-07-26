@@ -8,11 +8,11 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"luminog.com/common/lib"
-	"luminog.com/email_service/internal/application/dto"
-	"luminog.com/email_service/internal/application/managers"
-	"luminog.com/email_service/internal/application/validators"
-	"luminog.com/email_service/internal/ports"
+	"fivetrace.com/common/lib"
+	"fivetrace.com/email_service/internal/application/dto"
+	"fivetrace.com/email_service/internal/application/managers"
+	"fivetrace.com/email_service/internal/application/validators"
+	"fivetrace.com/email_service/internal/ports"
 )
 
 var logBaseFields = logrus.Fields{

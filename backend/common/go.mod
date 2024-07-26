@@ -1,4 +1,4 @@
-module luminog.com/common
+module fivetrace.com/common
 
 go 1.22.1
 

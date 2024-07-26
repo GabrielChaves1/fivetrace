@@ -4,15 +4,16 @@ import (
 	"context"
 	"encoding/json"
 
-	"luminog.com/common/lib"
+	"fivetrace.com/common/lib"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/sirupsen/logrus"
 
-	"luminog.com/iam_service/internal/application/dtos"
-	"luminog.com/iam_service/internal/application/validators"
-	"luminog.com/iam_service/internal/ports"
-	"luminog.com/iam_service/internal/utils"
+	"fivetrace.com/iam_service/internal/application/dtos"
+	"fivetrace.com/iam_service/internal/application/managers"
+	"fivetrace.com/iam_service/internal/application/validators"
+	"fivetrace.com/iam_service/internal/ports"
+	"fivetrace.com/iam_service/internal/utils"
 )
 
 var logBaseFields = logrus.Fields{
@@ -73,8 +74,9 @@ func (u *SignupUseCase) Execute(signupDto *dtos.SignupDTO) *SignupUseCaseError {
 
 	logger.Info("creating temp auth token")
 
-	token, err := utils.GenerateJWT(utils.Claims{
-		Email: signupDto.Email,
+	token, err := utils.GenerateJWT(managers.Claims{
+		Organization: signupDto.OrganizationName,
+		Email:        signupDto.Email,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Subject: sub,
 		},

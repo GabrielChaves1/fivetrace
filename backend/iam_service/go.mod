@@ -1,8 +1,9 @@
-module luminog.com/iam_service
+module fivetrace.com/iam_service
 
 go 1.22.1
 
 require (
+	fivetrace.com/common v0.0.0-00010101000000-000000000000
 	github.com/aws/aws-lambda-go v1.47.0
 	github.com/aws/aws-sdk-go-v2 v1.30.3
 	github.com/aws/aws-sdk-go-v2/config v1.27.27
@@ -13,7 +14,6 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/sirupsen/logrus v1.9.3
 	github.com/stripe/stripe-go/v79 v79.4.0
-	luminog.com/common v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -33,4 +33,4 @@ require (
 	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8 // indirect
 )
 
-replace luminog.com/common => ../common
+replace fivetrace.com/common => ../common

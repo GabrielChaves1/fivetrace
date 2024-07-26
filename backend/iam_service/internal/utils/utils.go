@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"os"
 
+	"fivetrace.com/iam_service/internal/application/managers"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -17,12 +18,7 @@ func ComputeSecretHash(clientId, clientSecret, username string) string {
 	return base64.StdEncoding.EncodeToString(mac.Sum(nil))
 }
 
-type Claims struct {
-	Email string `json:"email"`
-	jwt.RegisteredClaims
-}
-
-func GenerateJWT(claims Claims) (string, error) {
+func GenerateJWT(claims managers.Claims) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	jwtSecret := []byte(os.Getenv("JWT_SECRET"))

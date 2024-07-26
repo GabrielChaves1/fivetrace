@@ -8,9 +8,9 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/cognitoidentityprovider"
 	"github.com/aws/aws-sdk-go-v2/service/cognitoidentityprovider/types"
 
-	"luminog.com/iam_service/internal/domain"
-	"luminog.com/iam_service/internal/ports"
-	"luminog.com/iam_service/internal/utils"
+	"fivetrace.com/iam_service/internal/domain"
+	"fivetrace.com/iam_service/internal/ports"
+	"fivetrace.com/iam_service/internal/utils"
 )
 
 type CognitoIdentityProvider struct {
@@ -142,6 +142,23 @@ func (a *CognitoIdentityProvider) SignInUser(ctx context.Context, email, passwor
 	return string(authResultJSON), nil
 }
 
+func (a *CognitoIdentityProvider) UpdateUserAttributes(sub string, attributes []types.AttributeType) error {
+	input := &cognitoidentityprovider.AdminUpdateUserAttributesInput{
+		UserPoolId:     &a.userPoolId,
+		Username:       aws.String(sub),
+		UserAttributes: attributes,
+	}
+
+	_, err := a.client.AdminUpdateUserAttributes(context.Background(), input)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+}
+
 func (a *CognitoIdentityProvider) CreateApplication(ctx context.Context, name string) (*ports.IdentityProviderApplication, error) {
 	input := &cognitoidentityprovider.CreateUserPoolClientInput{
 		UserPoolId:     &a.userPoolId,
@@ -151,7 +168,7 @@ func (a *CognitoIdentityProvider) CreateApplication(ctx context.Context, name st
 			types.OAuthFlowTypeClientCredentials,
 		},
 		AllowedOAuthScopes: []string{
-			"fivelogs/write",
+			"fivetrace/write",
 		},
 		AllowedOAuthFlowsUserPoolClient: *aws.Bool(true),
 	}
