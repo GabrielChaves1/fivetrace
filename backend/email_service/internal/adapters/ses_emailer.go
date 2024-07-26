@@ -3,12 +3,12 @@ package adapters
 import (
 	"context"
 
-	"luminog.com/common/lib"
+	"fivetrace.com/common/lib"
 
+	"fivetrace.com/email_service/internal/ports"
 	"github.com/aws/aws-sdk-go-v2/service/ses"
 	"github.com/aws/aws-sdk-go-v2/service/ses/types"
 	"github.com/sirupsen/logrus"
-	"luminog.com/email_service/internal/ports"
 )
 
 type SESEmailer struct {

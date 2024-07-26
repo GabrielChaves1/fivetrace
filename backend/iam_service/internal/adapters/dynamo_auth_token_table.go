@@ -6,7 +6,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 
-	"luminog.com/iam_service/internal/ports"
+	"fivetrace.com/iam_service/internal/ports"
 )
 
 type DynamoTokenTable struct {

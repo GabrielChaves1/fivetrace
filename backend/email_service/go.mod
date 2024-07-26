@@ -1,8 +1,8 @@
-module luminog.com/email_service
+module fivetrace.com/email_service
 
 go 1.22.1
 
-replace luminog.com/common => ../common
+replace fivetrace.com/common => ../common
 
 require (
 	github.com/aws/aws-lambda-go v1.47.0
@@ -11,7 +11,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ses v1.25.2
 	github.com/aws/aws-sdk-go-v2/service/ssm v1.52.3
 	github.com/sirupsen/logrus v1.9.3
-	luminog.com/common v0.0.0-00010101000000-000000000000
+	fivetrace.com/common v0.0.0-00010101000000-000000000000
 )
 
 require (

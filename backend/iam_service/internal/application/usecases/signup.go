@@ -4,15 +4,15 @@ import (
 	"context"
 	"encoding/json"
 
-	"luminog.com/common/lib"
+	"fivetrace.com/common/lib"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/sirupsen/logrus"
 
-	"luminog.com/iam_service/internal/application/dtos"
-	"luminog.com/iam_service/internal/application/validators"
-	"luminog.com/iam_service/internal/ports"
-	"luminog.com/iam_service/internal/utils"
+	"fivetrace.com/iam_service/internal/application/dtos"
+	"fivetrace.com/iam_service/internal/application/validators"
+	"fivetrace.com/iam_service/internal/ports"
+	"fivetrace.com/iam_service/internal/utils"
 )
 
 var logBaseFields = logrus.Fields{

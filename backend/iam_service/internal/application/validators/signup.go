@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"regexp"
 
-	"luminog.com/iam_service/internal/application/dtos"
+	"fivetrace.com/iam_service/internal/application/dtos"
 )
 
 func ValidateSignupDTO(signupDto *dtos.SignupDTO) error {

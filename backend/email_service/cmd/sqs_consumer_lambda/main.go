@@ -14,10 +14,10 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ssm"
 	"github.com/sirupsen/logrus"
 
-	"luminog.com/common/lib"
-	"luminog.com/email_service/internal/adapters"
-	"luminog.com/email_service/internal/application/managers"
-	"luminog.com/email_service/internal/application/usecases"
+	"fivetrace.com/common/lib"
+	"fivetrace.com/email_service/internal/adapters"
+	"fivetrace.com/email_service/internal/application/managers"
+	"fivetrace.com/email_service/internal/application/usecases"
 )
 
 var (

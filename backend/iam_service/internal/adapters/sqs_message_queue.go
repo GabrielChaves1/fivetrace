@@ -8,7 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/sqs"
 
-	"luminog.com/iam_service/internal/ports"
+	"fivetrace.com/iam_service/internal/ports"
 )
 
 type SQSMessageQueue struct {

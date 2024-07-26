@@ -3,7 +3,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      "project"     = "Luminog"
+      "project"     = "FiveTrace"
       "environment" = "Development"
     }
   }

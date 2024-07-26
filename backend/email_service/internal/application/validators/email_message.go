@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"luminog.com/email_service/internal/application/dto"
+	"fivetrace.com/email_service/internal/application/dto"
 )
 
 func ValidateEmailMessageDTO(emailMessageDto dto.EmailMessageDTO) error {

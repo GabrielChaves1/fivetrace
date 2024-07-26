@@ -4,12 +4,12 @@ import (
 	"context"
 	"errors"
 
-	"luminog.com/common/lib"
+	"fivetrace.com/common/lib"
 
+	"fivetrace.com/email_service/internal/application/usecases"
+	"fivetrace.com/email_service/internal/ports"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/sirupsen/logrus"
-	"luminog.com/email_service/internal/application/usecases"
-	"luminog.com/email_service/internal/ports"
 )
 
 type SQSQueueMessageConsumer struct {

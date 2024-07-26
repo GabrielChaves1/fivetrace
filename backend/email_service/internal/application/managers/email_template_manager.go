@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"html/template"
 
+	"fivetrace.com/common/lib"
+	"fivetrace.com/email_service/internal/domain"
 	"github.com/sirupsen/logrus"
-	"luminog.com/common/lib"
-	"luminog.com/email_service/internal/domain"
 )
 
 var logBaseFields = logrus.Fields{
