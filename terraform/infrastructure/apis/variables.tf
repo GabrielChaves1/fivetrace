@@ -22,3 +22,8 @@ variable "email_sender_queue" {
 variable "dynamodb_auth_tokens_arn" {
   type = string
 }
+
+variable "stripe_secret_key" {
+  description = "Stripe account secret key"
+  type        = string
+}

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/aws/aws-sdk-go-v2/service/cognitoidentityprovider"
+	"github.com/aws/aws-sdk-go-v2/service/cognitoidentityprovider/types"
 )
 
 type IdentityProviderApplication struct {
@@ -16,6 +17,7 @@ type IdentityProvider interface {
 	SignUpUser(email, password, organizationName, country string) (string, error)
 	SignInUser(ctx context.Context, email, password string) (string, error)
 	CreateApplication(ctx context.Context, name string) (*IdentityProviderApplication, error)
-
+	
+	UpdateUserAttributes(sub string,attributes []types.AttributeType) error
 	GetUser(ctx context.Context, accessToken string) (*cognitoidentityprovider.GetUserOutput, error)
 }

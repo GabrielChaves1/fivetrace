@@ -10,6 +10,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"fivetrace.com/iam_service/internal/application/dtos"
+	"fivetrace.com/iam_service/internal/application/managers"
 	"fivetrace.com/iam_service/internal/application/validators"
 	"fivetrace.com/iam_service/internal/ports"
 	"fivetrace.com/iam_service/internal/utils"
@@ -73,8 +74,9 @@ func (u *SignupUseCase) Execute(signupDto *dtos.SignupDTO) *SignupUseCaseError {
 
 	logger.Info("creating temp auth token")
 
-	token, err := utils.GenerateJWT(utils.Claims{
-		Email: signupDto.Email,
+	token, err := utils.GenerateJWT(managers.Claims{
+		Organization: signupDto.OrganizationName,
+		Email:        signupDto.Email,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Subject: sub,
 		},
