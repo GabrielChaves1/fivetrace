@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"errors"
 	"os"
 
 	"github.com/sirupsen/logrus"
+	"github.com/stripe/stripe-go/v79"
 
 	"fivetrace.com/common/lib"
 	"fivetrace.com/iam_service/internal/adapters"
@@ -14,15 +16,36 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-lambda-go/lambdacontext"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/cognitoidentityprovider"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/aws/aws-sdk-go-v2/service/ssm"
 )
 
 var (
+	ssmClient     *ssm.Client
 	cognitoClient *cognitoidentityprovider.Client
 	dynamoClient  *dynamodb.Client
 )
+
+func getStripeSecretKey(logger *logrus.Entry) (stripeSecretKey string, err error) {
+	secretKey := os.Getenv("STRIPE_SECRET_KEY")
+	if secretKey == "" {
+		panic("STRIPE_SECRET_KEY env var is not set!")
+	}
+
+	logger.Info("Searching stripe secret key in SSM")
+	param, err := ssmClient.GetParameter(context.TODO(), &ssm.GetParameterInput{
+		Name:           aws.String(secretKey),
+		WithDecryption: aws.Bool(true),
+	})
+	if err != nil {
+		return "", errors.Join(errors.New("couldn't find stripe secret key parameter in SSM"), err)
+	}
+
+	return *param.Parameter.Value, err
+}
 
 func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	lambdaContext, _ := lambdacontext.FromContext(ctx)
@@ -42,10 +65,16 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 		UserPoolId:   os.Getenv("COGNITO_USER_POOL_ID"),
 	})
 
+	stripePaymentGateway := adapters.NewStripePaymentGatewayManager()
 	authTokenTable := adapters.NewDynamoTokenTable(dynamoClient, "auth_tokens")
-	confirmUseCase := usecases.NewConfirmUseCase(ctx, cognitoIDP, authTokenTable)
+	confirmEmailUseCase := usecases.NewConfirmEmailUseCase(
+		ctx,
+		cognitoIDP,
+		authTokenTable,
+		stripePaymentGateway,
+	)
 
-	fail := confirmUseCase.Execute(Token)
+	fail := confirmEmailUseCase.Execute(Token)
 
 	if fail != nil {
 		return events.APIGatewayProxyResponse{
@@ -58,6 +87,10 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 		StatusCode: 200,
 		Body:       "User confirmed successfully",
 	}, nil
+}
+
+func main() {
+	lambda.Start(handler)
 }
 
 func init() {
@@ -75,8 +108,15 @@ func init() {
 
 	logger.Info("Initializing AWS DynamoDB Client")
 	dynamoClient = dynamodb.NewFromConfig(cfg)
-}
 
-func main() {
-	lambda.Start(handler)
+	logger.Info("Initializing SSM client")
+	ssmClient = ssm.NewFromConfig(cfg)
+
+	stripeSecretKey, err := getStripeSecretKey(logger)
+
+	if err != nil {
+		panic(err)
+	}
+
+	stripe.Key = stripeSecretKey
 }

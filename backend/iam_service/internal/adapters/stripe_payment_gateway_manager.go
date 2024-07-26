@@ -12,9 +12,9 @@ func NewStripePaymentGatewayManager() ports.PaymentGatewayManager {
 	return &StripePaymentGatewayManager{}
 }
 
-func (a *StripePaymentGatewayManager) CreateCustomer(sub, email, organizationName string) (*ports.PaymentGatewayCustomer, error) {
+func (a *StripePaymentGatewayManager) CreateCustomer(sub, email, organization string) (*ports.PaymentGatewayCustomer, error) {
 	params := &stripe.CustomerParams{
-		Name:  stripe.String(organizationName),
+		Name:  stripe.String(organization),
 		Email: stripe.String(email),
 		Metadata: map[string]string{
 			"sub": sub,

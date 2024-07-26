@@ -142,8 +142,14 @@ func (a *CognitoIdentityProvider) SignInUser(ctx context.Context, email, passwor
 	return string(authResultJSON), nil
 }
 
-func (a *CognitoIdentityProvider) UpdateAttributes(attributes cognitoidentityprovider.AdminUpdateUserAttributesInput) error {
-	_, err := a.client.AdminUpdateUserAttributes(context.Background(), &attributes)
+func (a *CognitoIdentityProvider) UpdateUserAttributes(sub string, attributes []types.AttributeType) error {
+	input := &cognitoidentityprovider.AdminUpdateUserAttributesInput{
+		UserPoolId:     &a.userPoolId,
+		Username:       aws.String(sub),
+		UserAttributes: attributes,
+	}
+
+	_, err := a.client.AdminUpdateUserAttributes(context.Background(), input)
 
 	if err != nil {
 		return err
