@@ -63,3 +63,35 @@ resource "aws_lambda_permission" "confirm_permission" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.dashboard_api.execution_arn}/*/*"
 }
+
+resource "aws_lambda_function" "signin_lambda" {
+  function_name = "SignInUser"
+  description   = "this function sign-in user"
+  role          = aws_iam_role.signin_role.arn
+
+  runtime = "provided.al2023"
+  handler = "bootstrap"
+
+  filename         = "${local.iam_build_path}/sign_in_lambda.zip"
+  source_code_hash = filebase64sha256("${local.iam_build_path}/sign_in_lambda.zip")
+
+  logging_config {
+    log_format = "JSON"
+  }
+
+  environment {
+    variables = {
+      COGNITO_CLIENT_ID = var.cognito_user_pool_app_client.client_id
+      COGNITO_CLIENT_SECRET = var.cognito_user_pool_app_client.client_secret
+      COGNITO_USER_POOL_ID = var.cognito_user_pool.id
+    }
+  }
+}
+
+resource "aws_lambda_permission" "signin_permission" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.signin_lambda.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.dashboard_api.execution_arn}/*/*"
+}
