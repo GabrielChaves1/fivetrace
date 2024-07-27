@@ -94,3 +94,23 @@ resource "aws_iam_policy" "signin_policy" {
   name_prefix = "SignInUserPolicy"
   policy      = data.aws_iam_policy_document.signin_policy.json
 }
+
+data "aws_iam_policy_document" "management_authorizer_policy" {
+  version = "2012-10-17"
+  statement {
+    actions = [
+      "cognito-idp:GetUser",
+    ]
+
+    resources = [
+      var.cognito_user_pool.arn,
+    ]
+
+    effect = "Allow"
+  }
+}
+
+resource "aws_iam_policy" "management_authorizer_policy" {
+  name_prefix = "SignInUserPolicy"
+  policy      = data.aws_iam_policy_document.management_authorizer_policy.json
+}

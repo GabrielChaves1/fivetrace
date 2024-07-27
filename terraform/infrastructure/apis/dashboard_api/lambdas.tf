@@ -95,3 +95,18 @@ resource "aws_lambda_permission" "signin_permission" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.dashboard_api.execution_arn}/*/*"
 }
+
+resource "aws_lambda_function" "management_authorizer_lambda" {
+  function_name = "ManagementAuthorizer"
+  role          = aws_iam_role.management_authorizer_role.arn
+
+  runtime = "provided.al2023"
+  handler = "bootstrap"
+
+  filename         = "${local.iam_build_path}/management_authorizer_lambda.zip"
+  source_code_hash = filebase64sha256("${local.iam_build_path}/management_authorizer_lambda.zip")
+
+  logging_config {
+    log_format = "JSON"
+  }
+}

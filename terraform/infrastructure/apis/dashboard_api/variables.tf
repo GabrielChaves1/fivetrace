@@ -1,3 +1,8 @@
+variable "aws_region" {
+  description = "The AWS region to deploy resources in"
+  type        = string
+}
+
 variable "cognito_user_pool" {
   type = object({
     id  = string

@@ -55,3 +55,18 @@ resource "aws_iam_role_policy_attachment" "signin_logs_policy" {
   role       = aws_iam_role.signin_role.name
   policy_arn = aws_iam_policy.logs_policy.arn
 }
+
+resource "aws_iam_role" "management_authorizer_role" {
+  name_prefix = "ManagementAuthorizerRole"
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "management_authorizer_logs_policy" {
+  role       = aws_iam_role.management_authorizer_role.name
+  policy_arn = aws_iam_policy.logs_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "management_authorizer_policy" {
+  role = aws_iam_role.management_authorizer_role.name
+  policy_arn = aws_iam_policy.management_authorizer_policy.arn
+}
