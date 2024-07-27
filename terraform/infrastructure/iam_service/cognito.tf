@@ -43,6 +43,10 @@ resource "aws_cognito_user_pool" "cognito_user_pool" {
       schema
     ]
   }
+
+  lambda_config {
+    pre_token_generation = aws_lambda_function.pre_token_gen_lambda.arn
+  }
 }
 
 resource "aws_cognito_user_pool_domain" "pool_domain" {
