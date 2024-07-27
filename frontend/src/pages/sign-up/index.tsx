@@ -1,5 +1,6 @@
 import CountrySelector from "@/components/country-selector";
 import Grid from "@/components/grid";
+import MaxWidthWrapper from "@/components/max-width-wrapper";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -39,12 +40,12 @@ export default function Signup() {
   }
 
   return (
-    <main className="w-screen min-h-screen flex">
+    <MaxWidthWrapper>
       <section className="flex-1 h-screen container mx-auto hidden lg:flex sticky top-0 items-center justify-center">
         <Grid className="absolute z-0 w-3/4 object-cover bg-auto h-full"/>
         <div className="flex flex-col space-y-4 z-10 w-fit max-w-xl">
           <h1 className="text-7xl">Plataforma <br />de <b className="text-primary tracking-tighter">FiveM</b></h1>
-          <p className="text-md opacity-60">Não perca um único evento. A <b>Luminog</b> te ajuda nisso.</p>
+          <p className="text-md opacity-60">Não perca um único evento. A <b>Fivetrace</b> te ajuda nisso.</p>
         </div>
       </section>
       {emailSent ? (
@@ -182,6 +183,6 @@ export default function Signup() {
         </form> */}
         </section>
       )}
-    </main>
+    </MaxWidthWrapper>
   )
 }
