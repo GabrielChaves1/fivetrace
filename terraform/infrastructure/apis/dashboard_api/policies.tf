@@ -25,6 +25,7 @@ data "aws_iam_policy_document" "signup_policy" {
   statement {
     actions = [
       "cognito-idp:AdminCreateUser",
+      "cognito-idp:AdminUpdateUserAttributes",
       "dynamodb:GetItem",
       "dynamodb:PutItem",
       "dynamodb:DeleteItem",
@@ -56,9 +57,11 @@ data "aws_iam_policy_document" "confirm_email_policy" {
       "cognito-idp:AdminUpdateUserAttributes",
       "dynamodb:GetItem",
       "dynamodb:DeleteItem",
+      "ssm:GetParameter"
     ]
 
     resources = [
+      aws_ssm_parameter.stripe_secret_key.arn,
       var.cognito_user_pool.arn,
       var.dynamodb_auth_tokens_arn,
     ]
@@ -70,4 +73,24 @@ data "aws_iam_policy_document" "confirm_email_policy" {
 resource "aws_iam_policy" "confirm_email_policy" {
   name_prefix = "ConfirmEmailPolicy"
   policy      = data.aws_iam_policy_document.confirm_email_policy.json
+}
+
+data "aws_iam_policy_document" "signin_policy" {
+  version = "2012-10-17"
+  statement {
+    actions = [
+      "cognito-idp:InitiateAuth",
+    ]
+
+    resources = [
+      var.cognito_user_pool.arn,
+    ]
+
+    effect = "Allow"
+  }
+}
+
+resource "aws_iam_policy" "signin_policy" {
+  name_prefix = "SignInUserPolicy"
+  policy      = data.aws_iam_policy_document.signin_policy.json
 }

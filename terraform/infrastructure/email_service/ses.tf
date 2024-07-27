@@ -1,5 +1,5 @@
 resource "aws_sesv2_configuration_set" "sender_configuration_set" {
-  configuration_set_name = "LuminogEmailSender"
+  configuration_set_name = "FiveTraceEmailSender"
 
   reputation_options {
     reputation_metrics_enabled = true

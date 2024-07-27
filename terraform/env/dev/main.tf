@@ -3,7 +3,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      "project"     = "Luminog"
+      "project"     = "FiveTrace"
       "environment" = "Development"
     }
   }
@@ -12,4 +12,5 @@ provider "aws" {
 module "infrastructure" {
   source = "../../infrastructure"
   aws_region = var.aws_region
+  stripe_secret_key = var.stripe_secret_key
 }

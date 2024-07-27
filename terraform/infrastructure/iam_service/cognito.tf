@@ -17,6 +17,27 @@ resource "aws_cognito_user_pool" "cognito_user_pool" {
     required            = false
   }
 
+  schema {
+    name                = "organization"
+    attribute_data_type = "String"
+    mutable             = true
+    required            = false
+  }
+
+    schema {
+    name                = "customer_id"
+    attribute_data_type = "String"
+    mutable             = true
+    required            = false
+  }
+
+  schema {
+    name                = "country"
+    attribute_data_type = "String"
+    mutable             = true
+    required            = false
+  }
+
   lifecycle {
     ignore_changes = [
       schema

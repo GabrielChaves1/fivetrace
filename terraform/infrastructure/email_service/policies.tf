@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "send_email_policy" {
 }
 
 resource "aws_iam_policy" "send_email_policy" {
-  name_prefix = "LuminogSendEmail"
+  name_prefix = "FiveTraceSendEmail"
   policy      = data.aws_iam_policy_document.send_email_policy.json
 }
 
@@ -38,7 +38,7 @@ data "aws_iam_policy_document" "send_logs_policy" {
 }
 
 resource "aws_iam_policy" "send_logs_policy" {
-  name_prefix = "LuminogSendLogs"
+  name_prefix = "FiveTraceSendLogs"
   policy      = data.aws_iam_policy_document.send_logs_policy.json
 }
 
@@ -58,7 +58,7 @@ data "aws_iam_policy_document" "email_sender_queue_receive_message_policy" {
 }
 
 resource "aws_iam_policy" "email_sender_queue_receive_message_policy" {
-  name_prefix = "LuminogEmailSenderQueueReceiveMessage"
+  name_prefix = "FiveTraceEmailSenderQueueReceiveMessage"
   policy      = data.aws_iam_policy_document.email_sender_queue_receive_message_policy.json
 }
 
@@ -75,6 +75,6 @@ data "aws_iam_policy_document" "email_sender_parameter_read_policy" {
 }
 
 resource "aws_iam_policy" "email_sender_parameter_read_policy" {
-  name_prefix = "LuminogEmailSenderParameterRead"
+  name_prefix = "FiveTraceEmailSenderParameterRead"
   policy      = data.aws_iam_policy_document.email_sender_parameter_read_policy.json
 }

@@ -8,9 +8,9 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/cognitoidentityprovider"
 	"github.com/aws/aws-sdk-go-v2/service/cognitoidentityprovider/types"
 
-	"luminog.com/iam_service/internal/domain"
-	"luminog.com/iam_service/internal/ports"
-	"luminog.com/iam_service/internal/utils"
+	"fivetrace.com/iam_service/internal/domain"
+	"fivetrace.com/iam_service/internal/ports"
+	"fivetrace.com/iam_service/internal/utils"
 )
 
 type CognitoIdentityProvider struct {
@@ -35,7 +35,7 @@ func NewCognitoIdentityProvider(client *cognitoidentityprovider.Client, config *
 	}
 }
 
-func (a *CognitoIdentityProvider) SignUpUser(ctx context.Context, email, password string) (string, error) {
+func (a *CognitoIdentityProvider) SignUpUser(email, password, organizationName, country string) (string, error) {
 	input := &cognitoidentityprovider.SignUpInput{
 		ClientId:   aws.String(a.clientId),
 		SecretHash: aws.String(utils.ComputeSecretHash(a.clientId, a.clientSecret, email)),
@@ -50,10 +50,18 @@ func (a *CognitoIdentityProvider) SignUpUser(ctx context.Context, email, passwor
 				Name:  aws.String("custom:role"),
 				Value: aws.String(domain.Manager.String()),
 			},
+			{
+				Name:  aws.String("custom:organization"),
+				Value: aws.String(organizationName),
+			},
+			{
+				Name:  aws.String("custom:country"),
+				Value: aws.String(country),
+			},
 		},
 	}
 
-	data, err := a.client.SignUp(context.TODO(), input)
+	data, err := a.client.SignUp(context.Background(), input)
 
 	if err != nil {
 		return "", err
@@ -134,6 +142,23 @@ func (a *CognitoIdentityProvider) SignInUser(ctx context.Context, email, passwor
 	return string(authResultJSON), nil
 }
 
+func (a *CognitoIdentityProvider) UpdateUserAttributes(sub string, attributes []types.AttributeType) error {
+	input := &cognitoidentityprovider.AdminUpdateUserAttributesInput{
+		UserPoolId:     &a.userPoolId,
+		Username:       aws.String(sub),
+		UserAttributes: attributes,
+	}
+
+	_, err := a.client.AdminUpdateUserAttributes(context.Background(), input)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+}
+
 func (a *CognitoIdentityProvider) CreateApplication(ctx context.Context, name string) (*ports.IdentityProviderApplication, error) {
 	input := &cognitoidentityprovider.CreateUserPoolClientInput{
 		UserPoolId:     &a.userPoolId,
@@ -143,7 +168,7 @@ func (a *CognitoIdentityProvider) CreateApplication(ctx context.Context, name st
 			types.OAuthFlowTypeClientCredentials,
 		},
 		AllowedOAuthScopes: []string{
-			"fivelogs/write",
+			"fivetrace/write",
 		},
 		AllowedOAuthFlowsUserPoolClient: *aws.Bool(true),
 	}
