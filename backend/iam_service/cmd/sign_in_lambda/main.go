@@ -34,6 +34,7 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 	var request dtos.SignInDTO
 	err := json.Unmarshal([]byte(event.Body), &request)
 	if err != nil {
+		logger.WithError(err).Error("failed to unmarshal request body")
 		return events.APIGatewayProxyResponse{
 			StatusCode: 400,
 			Body:       "Invalid request body",
