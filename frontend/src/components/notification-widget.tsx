@@ -12,8 +12,9 @@ export default function NotificationWidget() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button size={"icon"} variant={"outline"} className="relative">
-            <div className="w-2 h-2 bg-primary rounded-full absolute top-1 right-2"></div>
-            <div className="w-2 h-2 bg-primary animate-ping rounded-full absolute top-1 right-2"></div>
+            <div className="w-2.5 h-2.5 bg-primary rounded-full absolute top-0 right-0">
+              <div className="w-full h-full bg-primary animate-ping rounded-full absolute"></div>
+            </div>
             <Bell size={16} />
           </Button>
         </DropdownMenuTrigger>

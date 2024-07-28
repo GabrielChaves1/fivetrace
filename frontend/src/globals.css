@@ -68,7 +68,6 @@
   padding: 0;
   box-sizing: border-box;
   font-family: Inter;
-  overflow-x: hidden
 }
 
 @layer base {
