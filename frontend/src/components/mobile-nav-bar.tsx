@@ -1,10 +1,10 @@
 import { NAVIGATION_ITEMS, NavigationItem } from "@/config/navigation";
-import { Bell, LogOut, MenuIcon } from "lucide-react";
+import { LogOut, MenuIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import NotificationWidget from "./notification-widget";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import NotificationWidget from "./notification-widget";
 
 export default function MobileNavbar() {
   const groupedItems = NAVIGATION_ITEMS.reduce((acc: any, item) => {
@@ -33,7 +33,7 @@ export default function MobileNavbar() {
                   <ul className="flex flex-col gap-1">
                     {groupedItems[category]?.map(({ icon: Icon, title, to }: NavigationItem) => (
                       <Link to={to} key={to}>
-                        <li className="flex items-center gap-2 text-sm text-foreground/60 hover:text-foreground/80 transition">
+                        <li className="flex items-center h-8 gap-2 text-sm text-foreground/60 hover:text-foreground/80 transition">
                           {Icon && <Icon size={14} />}
                           {title}
                         </li>
@@ -62,7 +62,7 @@ export default function MobileNavbar() {
           <NotificationWidget />
           <Avatar>
             <AvatarFallback>GC</AvatarFallback>
-            <AvatarImage src="https://avatars.githubusercontent.com/u/37236608?v=4" alt="Guilherme Carvalho" />
+            <AvatarImage src="/example.png" alt="Guilherme Carvalho" />
           </Avatar>
         </div>
       </nav>

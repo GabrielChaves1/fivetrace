@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Confirm() {
   return (
-    <MaxWidthWrapper>
+    <MaxWidthWrapper className="flex-row">
       <section className="flex-1 h-screen container mx-auto hidden lg:flex sticky top-0 items-center justify-center">
         <Grid className="absolute z-0 w-3/4 object-cover bg-auto h-full"/>
         <div className="flex flex-col space-y-4 z-10 w-fit max-w-xl">

@@ -1,4 +1,3 @@
-import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { ElementType } from "react";
 
 export interface NavigationItem {
@@ -10,25 +9,13 @@ export interface NavigationItem {
 
 export const NAVIGATION_ITEMS = [
   {
-    title: "Página Inicial",
-    to: "/home",
+    title: "Configurações da organização",
+    to: "/general",
     category: "Geral",
   },
   {
-    title: "Configurações",
-    to: "/settings",
-    category: "Geral",
-  },
-  {
-    title: "Guia",
-    to: "/settings",
-    category: "Documentação",
-    icon: ArrowTopRightIcon,
-  },
-  {
-    title: "API Reference",
-    to: "/settings",
-    category: "Documentação",
-    icon: ArrowTopRightIcon,
+    title: "Copacabana Roleplay",
+    to: "/settings/cidade-alta",
+    category: "Servidores",
   },
 ];

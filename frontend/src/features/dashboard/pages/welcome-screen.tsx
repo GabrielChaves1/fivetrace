@@ -5,11 +5,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { Button } from "@/components/ui/button";
 import {
-  Form, FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
+    Form, FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -55,7 +55,7 @@ export default function Welcome() {
                     <div className="flex items-center space-x-4">
                       <Avatar className="w-20 h-20 rounded-md">
                         <AvatarFallback></AvatarFallback>
-                        <AvatarImage className="rounded-sm" src={field.value || "https://avatars.githubusercontent.com/u/37236608?v=4"} alt="Icone do servidor" />
+                        <AvatarImage className="rounded-sm" src={field.value || "/example.png"} alt="Icone do servidor" />
                       </Avatar>
                       <Button size={"sm"} variant={"outline"} type="button">Selecionar Imagem</Button>
                     </div>

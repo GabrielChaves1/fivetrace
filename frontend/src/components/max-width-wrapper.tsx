@@ -7,7 +7,7 @@ type MaxWidthWrapperProps = ComponentProps<'main'> & {
 
 export default function MaxWidthWrapper({ children, className, ...props }: MaxWidthWrapperProps) {
   return (
-    <main className={cn('w-screen h-screen flex', className)} {...props}>
+    <main className={cn('w-screen h-screen flex flex-col', className)} {...props}>
       {children}
     </main>
   )

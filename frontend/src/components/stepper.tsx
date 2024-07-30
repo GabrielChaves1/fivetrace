@@ -19,8 +19,6 @@ export default function Stepper({ currentStep, steps, className, ...props }: Ste
         <div className="h-full bg-primary transition-all duration-300" style={{ width: `${percentage}%` }} />
       </div>
       {Array.from({ length: steps }).map((_, index) => {
-        const isCurrentStep = (index + 1) === currentStep;
-
         return (
           <div
             key={index}
@@ -28,7 +26,7 @@ export default function Stepper({ currentStep, steps, className, ...props }: Ste
               "w-10 h-10 rounded-full": true,
               "border-primary": index < currentStep,
               "border-foreground/10": index >= currentStep,
-              "text-white": index < currentStep,
+              "text-foreground": index < currentStep,
             })}>
             {index + 1}
           </div>

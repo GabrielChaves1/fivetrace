@@ -19,10 +19,10 @@ export default function NotificationWidget() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className={cn("w-72 sm:w-96 mr-5 desktop:mr-0")} align={isDesktop ? "end" : "center"}>
-          <p className="text-sm p-2 font-light text-muted-foreground">Notificações</p>
+          <p className="text-sm p-2 text-foreground">Notificações</p>
           <DropdownMenuSeparator />
           <div className="w-full h-36 flex flex-col space-y-2 items-center justify-center">
-            <p className="text-sm font-light">Nenhuma notificação nova</p>
+            <p className="text-sm text-foreground">Nenhuma notificação nova</p>
             <span className="text-xs text-muted-foreground text-center w-full max-w-64">Você será notificado aqui sobre quaisquer avisos sobre sua organização</span>
           </div>
         </DropdownMenuContent>

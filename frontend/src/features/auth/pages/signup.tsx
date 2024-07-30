@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { schema } from "./schemas";
+import { schema } from "../schemas/signup-schema";
 
 export default function Signup() {
   const [emailSent, setEmailSent] = useState(false);
@@ -40,7 +40,7 @@ export default function Signup() {
   }
 
   return (
-    <MaxWidthWrapper>
+    <MaxWidthWrapper className="flex-row">
       <section className="flex-1 h-screen container mx-auto hidden lg:flex sticky top-0 items-center justify-center">
         <Grid className="absolute z-0 w-3/4 object-cover bg-auto h-full"/>
         <div className="flex flex-col space-y-4 z-10 w-fit max-w-xl">
