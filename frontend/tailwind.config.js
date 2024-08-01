@@ -39,6 +39,12 @@ module.exports = {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+        warn: {
+          DEFAULT: "hsl(var(--warn))",
+        },
+        important: {
+          DEFAULT: "hsl(var(--important))",
+        },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
@@ -78,6 +84,10 @@ module.exports = {
       screens: {
         'desktop': '1280px',
       }
+    },
+    fontFamily: {
+      jura: ["Jura", "sans-serif"],
+      inter: ["Inter", "sans-serif"],
     },
   },
   

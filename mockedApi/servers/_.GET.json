@@ -1,0 +1,16 @@
+{
+  "#body": [
+    {
+      "id": "[#faker:datatype:uuid]",
+      "name": "Copacabana Roleplay",
+      "image": "https://avatars.githubusercontent.com/u/97165289",
+      "ip": "[#faker:internet:ip]"
+    },
+    {
+      "id": "[#faker:datatype:uuid]",
+      "name": "Capital Roleplay",
+      "image": "https://avatars.githubusercontent.com/u/97165289",
+      "ip": "[#faker:internet:ip]"
+    }
+  ]
+}

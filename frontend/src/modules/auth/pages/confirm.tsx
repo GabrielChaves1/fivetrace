@@ -12,7 +12,7 @@ export default function Confirm() {
           <p className="text-md opacity-60">Não perca um único evento. A <b>Fivetrace</b> te ajuda nisso.</p>
         </div>
       </section>
-      <section className="container mx-auto w-full max-w-xl py-12 flex flex-col items-center justify-center gap-12 bg-container border-x border-foreground/10">
+      <section className="container mx-auto w-full max-w-xl py-12 flex flex-col items-center justify-center gap-12 bg-container border-x ">
         <div className="w-full max-w-sm text-center space-y-8">
           <div className="space-y-2">
             <h1 className="text-3xl">Parabéns!</h1>

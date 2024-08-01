@@ -18,7 +18,7 @@ export default function MobileNavbar() {
 
   return (
     <div className="bg-container/50 desktop:hidden">
-      <nav className="flex items-center justify-between px-10 border-b border-foreground/10 gap-10">
+      <nav className="flex items-center justify-between px-10 border-b  gap-10">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant={"ghost"} size={"icon"}>
@@ -28,7 +28,7 @@ export default function MobileNavbar() {
           <SheetContent side={"left"}>
             <nav className="w-full">
               {Object.keys(groupedItems).map(category => (
-                <div className="space-y-3 p-6 border-b border-foreground/10" key={category}>
+                <div className="space-y-3 p-6 border-b " key={category}>
                   <h3 className="font-bold text-sm">{category}</h3>
                   <ul className="flex flex-col gap-1">
                     {groupedItems[category]?.map(({ icon: Icon, title, to }: NavigationItem) => (
@@ -42,7 +42,7 @@ export default function MobileNavbar() {
                   </ul>
                 </div>
               ))}
-              <div className="p-6 border-b border-foreground/10">
+              <div className="p-6 border-b ">
                 <ul className="flex flex-col gap-1">
                   <Link to="/logout">
                     <li className="flex items-center gap-2 text-sm text-foreground/60 hover:text-foreground/80 transition">

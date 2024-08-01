@@ -12,11 +12,11 @@ export default function Navbar() {
   }, [])
 
   return (
-    <div className="w-full hidden desktop:flex sticky inset-0 flex-col justify-between bg-container/50 max-w-xs border-r border-foreground/10">
+    <div className="w-full hidden desktop:flex sticky inset-0 flex-col justify-between bg-container/50 max-w-xs border-r ">
       <nav className="flex flex-col">
         <ul className="flex flex-1 flex-col">
           {Object.keys(groupedItems).map(category => (
-            <div className="space-y-3 p-6 px-8 border-b border-foreground/10" key={category}>
+            <div className="space-y-3 p-6 px-8 border-b " key={category}>
               <h3 className="font-bold text-sm">{category}</h3>
               <ul className="flex flex-col gap-1">
                 {groupedItems[category]?.map(({icon: Icon, title, to}: NavigationItem) => (

@@ -1,0 +1,8 @@
+{
+  "#body": {
+    "id": "[serverId]",
+    "name": "[#faker:company:companyName]",
+    "image": "[#faker:image:avatar]",
+    "ip": "[#faker:internet:ip]"
+  }
+}

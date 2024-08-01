@@ -25,7 +25,7 @@ export default function Stepper({ currentStep, steps, className, ...props }: Ste
             className={cn("bg-background z-[1] text-md border-2 grid place-items-center", {
               "w-10 h-10 rounded-full": true,
               "border-primary": index < currentStep,
-              "border-foreground/10": index >= currentStep,
+              "": index >= currentStep,
               "text-foreground": index < currentStep,
             })}>
             {index + 1}

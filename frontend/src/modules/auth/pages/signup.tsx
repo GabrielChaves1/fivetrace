@@ -30,13 +30,13 @@ export default function Signup() {
   })
 
   const onSubmit = async (values: z.infer<typeof schema>) => {
-    console.log("Cadastro realizado com sucesso!");
-    const res = await api.post("/signup", {
+    const res = await api.post("/auth/signup", {
       ...values
     })
-    console.log(res);
 
-    setEmailSent(true);
+    if (res.status === 200) {
+      setEmailSent(true);
+    }
   }
 
   return (
@@ -49,16 +49,16 @@ export default function Signup() {
         </div>
       </section>
       {emailSent ? (
-        <div className="container mx-auto w-full max-w-xl py-12 flex flex-col items-center justify-center gap-8 bg-container border-x border-foreground/10">
+        <div className="container mx-auto w-full max-w-xl py-12 flex flex-col items-center justify-center gap-8 bg-container border-x ">
           {/* <img src="/logo.svg" /> */}
           <div className="space-y-10 w-fit max-w-xs text-center">
             <p className="text-md text-foreground/55">Estamos felizes em informar que sua conta foi cadastrada com <span className="text-primary font-semibold">sucesso</span> em nossa plataforma!</p>
-            <hr className="border-foreground/10" />
+            <hr className="" />
             <p className="text-md text-foreground/55">Para completar o processo de cadastro e ativar sua conta, por favor verifique sua caixa de entrada de email. Enviamos um <span className="text-primary font-semibold">link de confirmação</span> para o endereço de email fornecido durante o cadastro.</p>
           </div>
         </div>
       ) : (
-        <section className="container mx-auto w-full max-w-xl py-12 flex flex-col items-center justify-center gap-12 bg-container border-x border-foreground/10">
+        <section className="container mx-auto w-full max-w-xl py-12 flex flex-col items-center justify-center gap-12 bg-container border-x ">
           {/* <img src="/logo.svg" /> */}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 w-full max-w-sm">
@@ -113,7 +113,11 @@ export default function Signup() {
                     <FormItem>
                       <FormLabel>Confirme sua senha</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="Sua senha" {...field} />
+                        <Input type="password" placeholder="Sua senha" {...field}>
+                          <Button variant="ghost" size="sm">
+                            
+                          </Button>
+                        </Input>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -146,41 +150,6 @@ export default function Signup() {
               </div>
             </form>
           </Form>
-          {/* <form className="flex flex-col w-full px-20 space-y-10 container mx-auto" onSubmit={handleSubmit(onSubmit)}>
-          <fieldset>
-            <div className="space-y-2 flex flex-col">
-              <label htmlFor="organization" className="opacity-75 text-sm">Nome da organização</label>
-              <Input type="text" id="organization" {...register("organization")} placeholder="Nome da sua organização" />
-              <p className="text-destructive/80 text-sm">{errors.organization?.message}</p>
-            </div>
-          </fieldset>
-          <fieldset className="space-y-4">
-            <div className="space-y-2 flex flex-col">
-              <label htmlFor="email" className="opacity-75 text-sm">E-mail</label>
-              <Input type="email" id="email" {...register("email")} placeholder="Seu e-mail" />
-              <p className="text-destructive/80 text-sm">{errors.organization?.message}</p>
-            </div>
-            <div className="space-y-2 flex flex-col">
-              <label htmlFor="password" className="opacity-75 text-sm">Senha</label>
-              <Input type="password" id="password" {...register("password")} placeholder="Sua senha" />
-              <p className="text-destructive/80 text-sm">{errors.organization?.message}</p>
-            </div>
-            <div className="space-y-2 flex flex-col">
-              <label htmlFor="confirm-password" className="opacity-75 text-sm">Confirmar Senha</label>
-              <Input type="password" id="confirm-password" {...register("confirmPassword")} placeholder="Sua senha" />
-              <p className="text-destructive/80 text-sm">{errors.organization?.message}</p>
-            </div>
-          </fieldset>
-          <div className="flex flex-col items-center space-y-4">
-            <button type="submit" className="h-12 w-full bg-primary/45 border border-primary/50 font-medium rounded-md transition-colors hover:bg-primary/50 hover:border-primary">
-              Cadastrar-se
-            </button>
-            <span className="text-foreground/60 text-sm">
-              Já possui uma conta?{" "}
-              <a className="text-primary underline cursor-pointer hover:text-primary/80 transition-colors">Entre agora</a>
-            </span>
-          </div>
-        </form> */}
         </section>
       )}
     </MaxWidthWrapper>

@@ -6,12 +6,12 @@
   :root {
     --background: 0 0% 9%;
     --foreground: 214 32% 91%;
-    --container: 0 0% 8%;
-    --card: 240 10% 3.9%;
+    --container: 0 0% 8.5%;
+    --card: 10 1% 8.5%;
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 153 68% 46%;
+    --primary: 153 60% 46%;
     --primary-foreground: 240 5.9% 10%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
@@ -19,11 +19,13 @@
     --muted-foreground: 240 5% 64.9%;
     --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
-    --destructive: 349 86% 54%;
+    --destructive: 0 79% 60%;
     --destructive-foreground: 0 0% 98%;
+    --important: 205 67% 54%;
+    --warn: 40 73% 49%;
     --radius: 0.5rem;
-    --border: 153 68% 46%;
-    --border-foreground: 0 0% 98%;
+    --border: 0 0% 15%;
+    --border-foreground: 0 0% 15%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
     --chart-1: 220 70% 50%;
@@ -36,8 +38,8 @@
   .light {
     --background: 0 0% 98.8%;
     --foreground: 0 0% 9%;
-    --container: 0 0% 96%;
-    --card: 240 10% 3.9%;
+    --container: 0 0% 96.5%;
+    --card: 240 10% 98.5%;
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
@@ -46,13 +48,15 @@
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted-foreground: 240 5% 60.9%;
     --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 77% 55%;
     --destructive-foreground: 0 0% 98%;
+    --important: 205 67% 54%;
+    --warn: 40 73% 49%;
     --radius: 0.5rem;
-    --border: 240 3.7% 15.9%;
+    --border: 0 0% 89%;
     --input: 0 0% 87%;
     --ring: 240 4.9% 83.9%;
     --chart-1: 220 70% 50%;
@@ -63,15 +67,12 @@
   }
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Inter;
-}
-
 @layer base {
   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter;
     @apply border-border;
   }
   body {
